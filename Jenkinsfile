@@ -1,4 +1,4 @@
-@Library('dst-shared@bugfix/DST-1871-dockerbuildpipeline-fails-if-passing-dockerarguments-option') _
+@Library('dst-shared@master') _
 
 dockerBuildPipeline {
         repository = "anajjar"
