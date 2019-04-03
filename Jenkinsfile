@@ -8,5 +8,5 @@ dockerBuildPipeline {
         name = "loftsman-docker-kubectl"
         description = "Loftsman Kubectl CLI"
         useEntryPointForTest = "false"
-        dockerArguments = "--build-arg docker-image-version=18.09.4"
+        dockerArguments = "--build-arg docker_image_version=18.09.4"
 }
