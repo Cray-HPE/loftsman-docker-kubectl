@@ -1,4 +1,4 @@
-@Library('dst-shared@master') _
+@Library('dst-shared@bugfix/DST-1871-dockerbuildpipeline-fails-if-passing-dockerarguments-option') _
 
 dockerBuildPipeline {
         repository = "anajjar"
@@ -8,4 +8,5 @@ dockerBuildPipeline {
         name = "loftsman-docker-kubectl"
         description = "Loftsman Kubectl CLI"
         useEntryPointForTest = "false"
+        dockerArguments = "--build-arg docker-image-version=18.09.4"
 }
