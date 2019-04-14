@@ -3,11 +3,16 @@
 set -e
 
 images_registry="$1"
-secrets_path="$2"
-target_namespace="$3"
+target_namespace="$2"
 
-source $secrets_path
-
+images_registry_username=""
+images_registry_password=""
+if [ -f /loftsman/secrets/images.registry.username ]; then
+  images_registry_username=$(cat /loftsman/secrets/images.registry.username)
+fi
+if [ -f /loftsman/secrets/images.registry.password ]; then
+  images_registry_password=$(cat /loftsman/secrets/images.registry.password)
+fi
 # Used for imagePullSecrets config, if our images_registry is private and we've been provided with a username/password for it
 if [[ ! -z "$images_registry_username" ]] && [[ ! -z "$images_registry_password" ]] && [[ ! -z "$images_registry" ]]; then
   for namespace in $(kubectl get namespaces -o jsonpath={.items[*].metadata.name}); do
