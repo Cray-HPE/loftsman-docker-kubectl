@@ -3,10 +3,18 @@
 set -e
 
 images_registry="$1"
-secrets_path="$2"
-target_namespace="$3"
+target_namespace="$2"
+images_registry_username_file="$3"
+images_registry_password_file="$4"
 
-source $secrets_path
+images_registry_username=""
+images_registry_password=""
+if [ -f "$images_registry_username_file" ]; then
+  images_registry_username="$(cat $images_registry_username_file)"
+fi
+if [ -f "$images_registry_password_file" ]; then
+  images_registry_password="$(cat $images_registry_password_file)"
+fi
 
 # Used for imagePullSecrets config, if our images_registry is private and we've been provided with a username/password for it
 if [[ ! -z "$images_registry_username" ]] && [[ ! -z "$images_registry_password" ]] && [[ ! -z "$images_registry" ]]; then
@@ -17,8 +25,8 @@ if [[ ! -z "$images_registry_username" ]] && [[ ! -z "$images_registry_password"
     echo "Creating/updating registry secret in namespace $namespace and configuring the default service account to use it"
     kubectl create secret docker-registry -n $namespace --dry-run=true registry-secret \
       --docker-server="${images_registry}" \
-      --docker-username="${images_registry_username}" \
-      --docker-password="${images_registry_password}" \
+      --docker-username="$(cat $username_file)" \
+      --docker-password="$(cat $password_file)" \
       --docker-email="shaper@loftsman.io" -o yaml > /tmp/registry-secret.yaml
     kubectl apply -f /tmp/registry-secret.yaml
     rm /tmp/registry-secret.yaml
