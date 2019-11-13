@@ -7,4 +7,5 @@ dockerBuildPipeline {
         description = "Loftsman Kubectl CLI"
         useEntryPointForTest = "false"
         dockerArguments = "--build-arg docker_image_version=18.09.4 --build-arg kubectl_version=v1.14.0"
+        product = "shasta-premium,shasta-standard"
 }
