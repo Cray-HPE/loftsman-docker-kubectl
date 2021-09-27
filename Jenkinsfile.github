@@ -1,0 +1,49 @@
+@Library('csm-shared-library') _
+
+pipeline {
+    agent {
+        label "metal-gcp-builder"
+    }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: "10"))
+        timestamps()
+    }
+
+    environment {
+        NAME = "docker-kubectl"
+        IMAGE_NAME = "docker-kubectl"
+        VERSION = getDockerBuildVersion(isStable: env.IS_STABLE)
+        IS_STABLE = getBuildIsStable()
+        BUILD_METADATA = getRpmRevision(isStable: env.IS_STABLE)
+        IMG_NAME = "docker-kubectl"
+        DESCRIPTION = "provides kubectl access from pods under K8s"
+        DOCKER_ARGS = getDockerBuildArgs(name: env.IMG_NAME, description: env.DESCRIPTION)
+        DOCKER_EXTRA_ARGS = "--build-arg docker_image_version=20.10.6 --build-arg kubectl_version=v1.18.6"
+    }
+
+    stages {
+        stage("Build") {
+            steps {
+                sh "make docker"
+            }
+        }
+
+        stage('Publish') {
+            steps {
+                script {
+                    publishCsmDockerImage(image: env.IMG_NAME, tag: env.VERSION, isStable: env.IS_STABLE)
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            script {
+                // Own files so jenkins can clean them up later
+                postChownFiles()
+            }
+        }
+    }
+}
