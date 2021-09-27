@@ -13,13 +13,14 @@ pipeline {
     environment {
         NAME = "docker-kubectl"
         IMAGE_NAME = "docker-kubectl"
+        K8S_VERSION = sh(returnStdout: true, script: "cat .version").trim()
+        DOCKER_IMG_VERSION = sh(returnStdout: true, script: "cat .docker_img_version").trim()
         VERSION = getDockerBuildVersion(isStable: env.IS_STABLE)
         IS_STABLE = getBuildIsStable()
         BUILD_METADATA = getRpmRevision(isStable: env.IS_STABLE)
         IMG_NAME = "docker-kubectl"
         DESCRIPTION = "provides kubectl access from pods under K8s"
         DOCKER_ARGS = getDockerBuildArgs(name: env.IMG_NAME, description: env.DESCRIPTION)
-        DOCKER_EXTRA_ARGS = "--build-arg docker_image_version=20.10.6 --build-arg kubectl_version=v1.18.6"
     }
 
     stages {
