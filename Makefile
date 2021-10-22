@@ -24,8 +24,7 @@ NAME ?= docker-kubectl
 IMAGE_NAME ?= docker-kubectl
 VERSION ?= $(shell cat .version)
 K8S_VERSION ?= $(shell cat .version)
-DOCKER_IMG_VERSION ?= $(shell cat .docker_img_version)
-DOCKER_EXTRA_ARGS ?= --build-arg docker_image_version=${DOCKER_IMG_VERSION} --build-arg kubectl_version=v${K8S_VERSION}
+DOCKER_EXTRA_ARGS ?= --build-arg kubectl_version=v${K8S_VERSION}
 
 all: docker
 
