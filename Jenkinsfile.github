@@ -14,7 +14,6 @@ pipeline {
         NAME = "docker-kubectl"
         IMAGE_NAME = "docker-kubectl"
         K8S_VERSION = sh(returnStdout: true, script: "cat .version").trim()
-        DOCKER_IMG_VERSION = sh(returnStdout: true, script: "cat .docker_img_version").trim()
         VERSION = getDockerBuildVersion(isStable: env.IS_STABLE)
         IS_STABLE = getBuildIsStable()
         BUILD_METADATA = getRpmRevision(isStable: env.IS_STABLE)

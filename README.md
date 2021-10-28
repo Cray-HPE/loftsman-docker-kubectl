@@ -8,6 +8,6 @@ This repo contains code to build a container image that is widely used as an ini
 
 The container built here contains a specific version of `kubectl` which is used in constructing the image tag at build / publish time.  That version is found in the `.version` file in this directory.
 
-The container also uses a base image of `docker:<version>`.  To keep this consistent, this is kept in the `.docker_img_version` file in this directory.
+The container also uses a base image of `alpine:latest`.
 
-To move to a newer `kubectl` version update `.version`.  To move to a newer base docker image, update `.docker_img_version`.
+To move to a newer `kubectl` version update `.version`.
