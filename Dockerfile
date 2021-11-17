@@ -11,7 +11,7 @@ RUN wget -q https://storage.googleapis.com/kubernetes-release/release/${kubectl_
 # kubectl-docker
 ##########################
 FROM alpine:latest as kubectl-docker
-
+RUN apk add --upgrade --no-cache apk-tools &&  apk update && apk add --no-cache jq yq && apk -U upgrade --no-cache
 COPY --from=install /usr/local/bin/kubectl /usr/local/bin/
 COPY ./bin/update-image-registry-secrets.sh /usr/local/bin/update-image-registry-secrets
 RUN chmod +x /usr/local/bin/update-image-registry-secrets
